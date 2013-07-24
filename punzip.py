@@ -130,12 +130,13 @@ def main():
         args.jobs = len(zipfiles)
 
     # Set up the worker pool
+    start_time = time.time()
     pool = multiprocessing.Pool(processes=args.jobs)
     pool.map(extract, zipfiles)
+    stop_time = time.time()
+    logger.info('Finished all extractions in {0} seconds.'.format(round(stop_time - start_time, 3)))
     return(0)
 
 
 if __name__ == '__main__':
     main()
-    #zipname = "IUCN_AmphibiansCBIGClassification_r16.zip"
-    #extract(zipname)

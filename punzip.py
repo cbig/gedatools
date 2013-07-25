@@ -137,7 +137,7 @@ def main():
                 zipfiles.append(os.path.abspath(os.path.join(root, filename)))
 
     if args.list:
-        logger.info('Files found in the folder tree:')
+        logger.info('{0} files found in the folder tree:'.format(len(zipfiles)))
         for _file in zipfiles:
             logger.info('{0}'.format(_file))
         sys.exit(0)

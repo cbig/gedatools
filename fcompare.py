@@ -79,12 +79,17 @@ def main():
             # First, extract the feature name token (such as species name) and see
             # if any of the files in the comparison set are the same.
             # See if the feature name is found in the file token
-            _file1_token = re.search('_([a-zA-Z]*)_', _file1_token).group()
+            p = re.compile('[A-Z]{1}[a-z]+[A-Z]{1}[a-z]+')
+            m = re.search(p, _file1_token)
+            if m:
+                _file1_token = m.group()
+            else:
+                print('WARNING: Could not find "_GenusSpecies[...]_" pattern in filename {0}'.format(_file1))
+                continue
             # See if any of the filenames in files2 contains the feature name (_file1_token)
             for filename in files2:
                 if _file1_token in filename:
                     matches[_file1] = filename
-
         if len(matches) == 1:
             if args.verbose:
                 print('INFO: following match found for file:\n <ofile> {0}'.format(_file1))
@@ -103,7 +108,7 @@ def main():
     print('Number of <{0}> files in folder F1: {1}'.format(args.extension,
                                                            len(files1)))
     print('Matches using feature name:')
-    print(' exact: {0}'.format(exact_match))
+    print(' match: {0}'.format(exact_match))
     if args.cutoff:
         print('File name matching cutoff value {0}'.format(args.cutoff))
         print(' similar (one match): {0}'.format(similar_match_one))
@@ -113,7 +118,7 @@ def main():
         print('\nUnmatched files:')
         pprint.pprint(unmatched)
 
-    if args.output:
+    if args.output and len(unmatched) > 0:
         print('Printing unmatched files into file {0}'.format(args.output))
         with open(args.output, 'w') as ofile:
             for _file in unmatched:

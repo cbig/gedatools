@@ -79,7 +79,11 @@ def main():
             # First, extract the feature name token (such as species name) and see
             # if any of the files in the comparison set are the same.
             # See if the feature name is found in the file token
-            p = re.compile('[A-Z]{1}[a-z]+[A-Z]{1}[a-z]+')
+            # Accept the following patterns:
+            #  'IUCN_ZosteropsRennellianus7489BLR5o.tif'
+            #  'IUCN_EcnomiohylaMiotympanum_r15o.tif'
+            #  'IUCN_Kerilia jerdoni_r15o.tif'
+            p = re.compile('[A-Z]{1}[a-z]+\s*[A-Za-z]{1}[a-z]+')
             m = re.search(p, _file1_token)
             if m:
                 _file1_token = m.group()

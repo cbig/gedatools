@@ -8,6 +8,7 @@ import functools
 import logging
 import multiprocessing
 import os.path
+import pprint
 import re
 import sys
 import time
@@ -38,10 +39,16 @@ def extract(zipname, overwrite=False):
 
     logger.info('Starting to decompress {0} files.'.format(nfiles))
 
+    #pprint.pprint(zfile.namelist())
+
     for name in zfile.namelist():
         # FIXME: does not handle more than 1 level folder hierarchy properly
         path_items = name.split('/')
-        if len(path_items) == 3:
+        if len(path_items) == 1:
+            # Having only 1 item means there is no folder structure at all. Use zip name to create folder.
+            dirname = zipname.replace('.zip', '')
+            filename = path_items[0]
+        elif len(path_items) == 3:
             # If the first and the second item are the same, then the root folder structure is
             # duplicated, e.g.:
             # IUCN_AmphibiansCBIGClassification_r15o/IUCN_AmphibiansCBIGClassification_r15o/IUCN_AcanthixalusSonjae_r15o.tfw
@@ -61,6 +68,7 @@ def extract(zipname, overwrite=False):
         try:
             if dirname and filename:
                 dirname = os.path.join(root, dirname)
+      
                 filename = os.path.join(dirname, filename)
                 if not os.path.exists(dirname):
                     logger.debug('Creating folder {0}'.format(dirname))

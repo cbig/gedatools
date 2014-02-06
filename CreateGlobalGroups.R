@@ -10,9 +10,12 @@ library(zonator)
 
 
 # MODIFY THESE; 
-# Set according to your local system and the variant you want to examine
+# Set according to your local system and the variant you want to examine. 
+# It would be ideal to run though all the variants. However, I was not able to get the PNG working within a 
+# loop. Now, you'll need to run each variant separately 
+
 root.path <- "C://TUULI/Artikkelit/GPAN_Expansion/ZOutput" # Replace with the correct root path 
-zvariant.nro <- 2 # Replace with the correct variant number. 
+zvariant.nro <- 1 # Replace with the correct variant number. 
 
 # NOTE: You can list the variants and numbers with this: 
 #zonation.project <- create_zproject(root.path)
